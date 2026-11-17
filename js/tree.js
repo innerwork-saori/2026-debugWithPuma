@@ -1,4 +1,4 @@
-// 樹木頁／神獸頁（關鍵畫面 ②）：#/tree/樹號。負責人：Saori
+// 樹木頁／神獸頁（關鍵畫面 ②）：#/tree/樹號
 // 樹號、樹種、位置是真實開放資料；神獸、故事、樹況、公示、回報、守護人數是模擬資料。
 import { esc, statusTag, loadJson, pageBarHtml } from './shared.js';
 import { getGuard, setGuard, guardiansOf, totalOf, getMyReports, vitalityOf, markSeen } from './store.js';

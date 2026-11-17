@@ -1,5 +1,4 @@
 // 地圖首頁和樹木頁共用的小工具：讀資料、跳脫文字、樹況標籤。
-// 負責人：Saori。兩人共用，要改先在 Discord 講一聲。
 
 // 模擬資料的狀態值 → 標記與標籤用的狀態
 export const STATUS = { normal: 'ok', watch: 'watch', notice: 'notice', keep: 'keep', transplant: 'move' };

@@ -1,4 +1,4 @@
-/* F10 品牌介紹頁 about.html。負責人：Qmoa。class 前綴 ab-。
+/* F10 品牌介紹頁 about.html。class 前綴 ab-。
    手機優先；1024px 以上且滑鼠操作時改成桌機版面（和 desktop.css 同一個條件）。 */
 
 .ab { margin: 0; min-height: 100vh; }

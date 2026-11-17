@@ -1,4 +1,4 @@
-// 地圖標記：照抄 design-system/components/MapMarker.md 的範本函式，改這裡前先對照那份文件。負責人：Saori
+// 地圖標記：照抄 design-system/components/MapMarker.md 的範本函式，改這裡前先對照那份文件。
 
 var DSH_MARKER = {
   size: { tree: [48, 60], beast: [72, 90] },

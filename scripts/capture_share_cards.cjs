@@ -1,6 +1,5 @@
 // 把設計稿「大樹神獸關鍵畫面.html」第 13～16 頁的分享卡與 OG 圖截成圖檔，放到 assets/share/。
 // 截圖前把設計稿的佔位文字換成 App 的資料（見下面 FIXES），求援籤的 QR code 換成真的。
-// 負責人：Saori
 //
 // 用法（puppeteer-core、qrcode 不進 repo，裝在別的資料夾）：
 //   mkdir -p ~/pptr && cd ~/pptr && npm i puppeteer-core qrcode

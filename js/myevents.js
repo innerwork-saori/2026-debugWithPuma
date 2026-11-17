@@ -1,4 +1,4 @@
-// 我參加的活動：#/myevents。負責人：Saori
+// 我參加的活動：#/myevents
 // 從「我的」頁點進來，列出按過「我想參加」的社區活動（含自己發起的），點一列回那棵樹的佈告欄。
 // 要取消參加就到佈告欄按，這裡只看不改。
 import { esc, pageBarHtml } from './shared.js';

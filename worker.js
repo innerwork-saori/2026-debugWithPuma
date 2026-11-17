@@ -1,4 +1,4 @@
-// 意見回饋 API：POST /api/feedback，存進 Cloudflare D1。負責人：Saori
+// 意見回饋 API：POST /api/feedback，存進 Cloudflare D1。
 // 其他網址都由 wrangler.jsonc 的 assets 直接回靜態檔，不會跑到這裡。
 //
 // 防灌水依序檢查，任何一關沒過就不寫入：

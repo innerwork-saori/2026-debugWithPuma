@@ -1,4 +1,4 @@
-// 意見回饋：#/feedback。負責人：Saori
+// 意見回饋：#/feedback
 // 從「我的」頁點進來。送到 worker.js 的 /api/feedback，存在 Cloudflare D1。
 // 防灌水：Turnstile 驗證（進這頁才載入）＋看不見的陷阱欄位；限流和每日上限在 worker.js。
 import { esc, pageBarHtml } from './shared.js';

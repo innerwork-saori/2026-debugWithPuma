@@ -1,4 +1,4 @@
-// 我的守護圖鑑（關鍵畫面「我的守護圖鑑」「圖鑑｜空白狀態」，PRD F7）：#/collection。負責人：Saori
+// 我的守護圖鑑（關鍵畫面「我的守護圖鑑」「圖鑑｜空白狀態」，PRD F7）：#/collection
 // 列出這台裝置守護的樹：在地守護排成卡片，遠端關注排成清單。資料只來自 store.js，只有自己看得到。
 // 第二個分頁「樹種圖鑑」（P1 設計稿「樹種圖鑑・剪影」，US-09）：#/collection/species。
 import { esc, statusTag, pageBarHtml } from './shared.js';

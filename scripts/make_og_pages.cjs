@@ -2,7 +2,7 @@
 // 它們讀不到 #/tree/樹號 這種 hash 網址的內容，所以分享出去的網址要用這些頁面。
 // 公示中的神獸另外產生 t/樹號-help.html（求援籤的預覽）。
 // Cloudflare 會把 .html 網址轉址到沒有副檔名的網址，所以對外的網址（og:url、分享連結）都不帶 .html。
-// 負責人：Saori。改了神獸或公告資料就重跑：node scripts/make_og_pages.cjs
+// 改了神獸或公告資料就重跑：node scripts/make_og_pages.cjs
 
 const fs = require('fs');
 const path = require('path');

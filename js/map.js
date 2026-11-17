@@ -1,6 +1,6 @@
 // 地圖首頁（關鍵畫面 ①）：真實樹木位置＋模擬的神獸、樹況、守護人數。
 // 也負責 hash 路由：#/tree/樹號 打開樹木頁，其他網址回到地圖。
-// 負責人：Saori。兩人共用（新增畫面要在 PAGES 加一行），要改先在 Discord 講一聲。
+// 新增畫面要在 PAGES 加一行。
 import { STATUS, DESKTOP, HOME, esc, statusTag, loadJson } from './shared.js';
 import { guardiansOf, totalOf } from './store.js';
 import { renderTreePage } from './tree.js';

@@ -1,4 +1,4 @@
-// 我的（PRD 路由表 #/me，P1）：#/me。負責人：Saori
+// 我的（PRD 路由表 #/me，P1）：#/me
 // 守護成果、隱私說明、資料來源，最下面是「關於大樹神獸」介紹頁的入口（手機版沒有頂部導覽）。
 // 數字只來自 store.js，只有自己看得到；社區活動的數字要先讀模擬活動，由 board.js 算好再補上。
 import { pageBarHtml } from './shared.js';

@@ -1,4 +1,4 @@
-// Service Worker：讓 App 可以加到主畫面，網路不穩時也打得開。負責人：Saori
+// Service Worker：讓 App 可以加到主畫面，網路不穩時也打得開。
 //
 // - 自己網站的檔案（HTML、JS、CSS、JSON、圖片）一律「網路優先」：有網路就拿最新版，
 //   現場一直在改，隊友才不會看到舊畫面。網路太慢（超過 NETWORK_TIMEOUT_MS）或斷線才用快取。
