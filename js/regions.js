@@ -76,13 +76,14 @@ export function loadRegionTrees(id) {
  * onPick 回傳 Promise，讀取中那一列顯示「讀取中」。Esc、點背景或「先不要」關閉，焦點回到按鈕。
  * 回傳 { choose(id), regions }，choose 不打開選單直接切換（例如按定位鈕、網址帶 ?region=）。
  */
-export async function setupRegionSheet(button, sheet, onPick) {
-  const regions = await loadRegions();
+export async function setupRegionSheet(button, sheet, onPick, homeCount) {
+  // 預設地點的棵數由地圖傳進來（data/trees.json 有幾棵），其他區域在 index.json 裡
+  const regions = (await loadRegions()).map((r) => (r.id === HOME_REGION.id ? { ...r, count: homeCount } : r));
   let current = HOME_REGION.id;
 
-  const meta = (r) => [r.district, r.note].filter(Boolean).join('・');
-  // 右側的小字：留言熱點寫留言數，活動會場寫 label，預設地點寫「現在位置」
-  const count = (r) => r.label ?? (r.comments ? `${r.comments} 則留言` : '現在位置');
+  // 左邊的說明：行政區、留言數（有才寫）、一句介紹。右邊統一寫這一區有幾棵樹
+  const meta = (r) => [r.district, r.comments ? `${r.comments} 則留言` : null, r.note].filter(Boolean).join('・');
+  const count = (r) => (r.count ? `${r.count.toLocaleString('zh-TW')} 棵樹` : '');
 
   function render() {
     sheet.innerHTML = `

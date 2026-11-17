@@ -552,7 +552,7 @@ async function main() {
     map.fitBounds(L.latLngBounds(inRegion.map((t) => [t.lat, t.lng])), { ...mapPadding([24, 140], 24), maxZoom: 18 });
   }
   const regionBtn = document.getElementById('region');
-  const regionSheet = setupRegionSheet(regionBtn, document.getElementById('region-sheet'), switchRegion)
+  const regionSheet = setupRegionSheet(regionBtn, document.getElementById('region-sheet'), switchRegion, trees.length)
     .catch((err) => {
       // 讀不到區域清單就不顯示按鈕，地圖照常用
       console.error(err);
