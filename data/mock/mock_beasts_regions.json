@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "dataType": "模擬資料",
+    "note": "「切換區域」裡的神獸。樹號、樹種、位置是真實開放資料；神獸名字、個性、故事、狀態、元氣值、守護人數都是團隊創作或模擬。插圖沿用北平東路四隻神獸的圖（同樹種），名字和故事另外寫。格式和 mock_beasts.json 相同，多一個 region。",
+    "statusValues": "normal 正常｜watch 需關注｜notice 公示中｜keep 保留｜transplant 移植"
+  },
+  "beasts": [
+    {
+      "treeId": "DA0215000020",
+      "region": "roosevelt",
+      "slug": "xuxugong",
+      "name": "古莊伯",
+      "species": "榕樹",
+      "rarity": "傳說",
+      "personality": "話不多、很會聽人說話。學生、上班族、帶孫子的阿公阿嬤坐到祂底下，講著講著心就靜下來了。",
+      "catchphrase": "坐一下再走，不趕時間。",
+      "story": "公園還沒有名字的時候祂就站在這裡了。附近的學生考前會來樹下坐一坐，說是坐過之後書比較讀得進去。（創作故事）",
+      "funFact": "榕樹的氣根垂到地面後會變粗，變成支撐的「柱子」，所以一棵老榕樹可能看起來像一片小樹林。",
+      "status": "notice",
+      "vitality": 80,
+      "guardians": {
+        "local": 27,
+        "remote": 74
+      },
+      "images": {
+        "healthy": "design-system/assets/character/beasts/xuxugong/healthy.webp",
+        "sad": "design-system/assets/character/beasts/xuxugong/sad.webp",
+        "icon": "design-system/assets/character/beasts/xuxugong/healthy-icon.webp"
+      },
+      "demoRole": "11/24 分享會主角：被公告移除 → 守護者發聲"
+    },
+    {
+      "treeId": "JJ0060331065",
+      "region": "roosevelt",
+      "slug": "gadang",
+      "name": "苳苳姨",
+      "species": "茄苳",
+      "rarity": "稀有",
+      "personality": "站在大馬路邊，每天看人趕捷運、等公車。記性很好，誰今天比較晚出門祂都知道。",
+      "catchphrase": "慢慢走，車子還會再來。",
+      "story": "祂和旁邊幾棵茄苳排成一列，幫等公車的人擋太陽。下雨天有人在祂底下躲雨，祂就把葉子撐得更開一點。（創作故事）",
+      "funFact": "茄苳的一片葉子由三片小葉組成，叫做三出複葉。",
+      "status": "normal",
+      "vitality": 91,
+      "guardians": {
+        "local": 15,
+        "remote": 33
+      },
+      "images": {
+        "healthy": "design-system/assets/character/beasts/gadang/healthy.webp",
+        "sad": "design-system/assets/character/beasts/gadang/sad.webp",
+        "icon": "design-system/assets/character/beasts/gadang/healthy-icon.webp"
+      },
+      "demoRole": "離會場最近的神獸，元氣滿滿的對照組"
+    },
+    {
+      "treeId": "DA0070110113",
+      "region": "roosevelt",
+      "slug": "queque",
+      "name": "啾啾",
+      "species": "雀榕",
+      "rarity": "稀有",
+      "personality": "愛熱鬧、消息靈通，巷子裡哪家店換了招牌、哪隻貓生了小貓，祂都第一個知道。",
+      "catchphrase": "欸欸，你聽說了嗎？",
+      "story": "麻雀和白頭翁每天早上在祂身上開會，吵得很。最近祂的葉子掉得比較多，鳥兒們都在擔心。（創作故事）",
+      "funFact": "雀榕一年會換好幾次葉，換葉的時候整棵樹光禿禿的，過幾天又長出紅褐色的新芽。",
+      "status": "watch",
+      "vitality": 52,
+      "guardians": {
+        "local": 10,
+        "remote": 28
+      },
+      "images": {
+        "healthy": "design-system/assets/character/beasts/queque/healthy.webp",
+        "sad": "design-system/assets/character/beasts/queque/sad.webp",
+        "icon": "design-system/assets/character/beasts/queque/sad-icon.webp"
+      },
+      "demoRole": "回報出現病徵、需要關心的情境"
+    },
+    {
+      "treeId": "JJ0080310002",
+      "region": "roosevelt",
+      "slug": "luan",
+      "name": "欒小秋",
+      "species": "臺灣欒樹",
+      "rarity": "普通",
+      "personality": "文青性格，喜歡看路過的人手上拿什麼書，秋天一到就忍不住要換上新衣服。",
+      "catchphrase": "今天的光線很好，幫我拍一張？",
+      "story": "祂站在一整排欒樹中間，每年秋天大家一起變黃、變紅。祂說自己是這一排裡面顏色換得最準時的。（創作故事）",
+      "funFact": "臺灣欒樹是台灣特有種，秋天先開黃花，再結出紅褐色、像小燈籠的蒴果。",
+      "status": "normal",
+      "vitality": 87,
+      "guardians": {
+        "local": 8,
+        "remote": 22
+      },
+      "images": {
+        "healthy": "design-system/assets/character/beasts/luan/healthy.webp",
+        "sad": "design-system/assets/character/beasts/luan/sad.webp",
+        "icon": "design-system/assets/character/beasts/luan/healthy-icon.webp"
+      },
+      "demoRole": "年輕神獸"
+    }
+  ]
+}

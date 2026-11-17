@@ -9,16 +9,26 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://2026-debugwithpuma.tree-god.workers.dev/';
-// 有從設計稿截 OG 圖的神獸（scripts/capture_share_cards.cjs）；其他用 App 圖示
+// 有從設計稿截 OG 圖的神獸（scripts/capture_share_cards.cjs）；其他用 App 圖示。
+// 圖上印著鬚鬚公的名字，所以用樹號對應：其他區域沿用同一張插圖的神獸不會拿到這張圖。
 const OG_IMAGES = {
-  xuxugong: { guard: 'assets/share/og-xuxugong-guard.png', help: 'assets/share/og-xuxugong-help.png' },
+  JS0155103034: { guard: 'assets/share/og-xuxugong-guard.png', help: 'assets/share/og-xuxugong-help.png' },
 };
 const FALLBACK_IMAGE = 'design-system/assets/logos/app-icons/icon-512.png';
 
 const read = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
-const { beasts } = read('data/mock/mock_beasts.json');
+// 預設地點的神獸，加上其他區域的神獸（例如 11/24 分享會會場）
+const regionBeasts = read('data/mock/mock_beasts_regions.json').beasts;
+const beasts = [...read('data/mock/mock_beasts.json').beasts, ...regionBeasts];
 const { notices } = read('data/mock/mock_notices.json');
 const trees = new Map(read('data/trees.json').trees.map((t) => [t.id, t]));
+for (const id of new Set(regionBeasts.map((b) => b.region))) {
+  const { fields, rows } = read(`data/regions/${id}.json`);
+  for (const row of rows) {
+    const t = Object.fromEntries(fields.map((f, i) => [f, row[i]]));
+    trees.set(t.id, t);
+  }
+}
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const shortDate = (date) => date.slice(5).split('-').map(Number).join('/');
@@ -60,7 +70,7 @@ for (const b of beasts) {
   const target = `../#/tree/${encodeURIComponent(b.treeId)}`;
   const where = `${tree.location}的${b.species}`;
   const total = b.guardians.local + b.guardians.remote;
-  const og = OG_IMAGES[b.slug];
+  const og = OG_IMAGES[b.treeId];
   const out = [{
     file: `${b.treeId}.html`,
     title: `我在守護${b.name}｜大樹神獸`,

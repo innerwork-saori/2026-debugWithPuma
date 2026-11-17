@@ -4,6 +4,7 @@
 // 還是找不到（資料沒更新、網路斷了），就用樹號做一棵「樹種待查」的樹，樹木頁照樣打得開。
 import { categoryOf } from './categories.js';
 import { loadJson } from './shared.js';
+import { loadRegionBeasts, withBeast } from './regions.js';
 
 const SHARDS = 256;
 // 地圖範圍外的樹沒有模擬守護人數，從 0 開始
@@ -74,7 +75,8 @@ export async function findOutsideTree(id) {
     // 讀不到分檔就當作查不到
   }
   if (!raw) return placeholderTree(id);
-  return {
+  // 其他區域的神獸（例如分享會會場的）：還沒切到那一區就用連結打開，也要認得祂
+  return withBeast({
     ...raw,
     managerEstimated: '臺北市公園路燈工程管理處',
     beast: undefined,
@@ -82,5 +84,5 @@ export async function findOutsideTree(id) {
     category: categoryOf(raw.species),
     guardians: { ...NO_GUARDIANS },
     outside: true,
-  };
+  }, (await loadRegionBeasts()).get(id));
 }

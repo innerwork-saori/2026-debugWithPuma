@@ -6,6 +6,7 @@ import { esc, statusTag, loadJson, pageBarHtml } from './shared.js';
 import { getGuard } from './store.js';
 import { upcomingEventsOf } from './board.js';
 import { daysUntil, shortDate } from './tree.js';
+import { findOutsideTree } from './lookup.js';
 
 const treeHref = (id) => `#/tree/${encodeURIComponent(id)}`;
 const nameOf = (tree, fallback) => tree?.beast?.name ?? tree?.species ?? fallback;
@@ -75,6 +76,9 @@ function eventRowHtml({ tree, e }) {
 export async function renderNoticesPage(el, { trees }) {
   const { notices } = await loadJson('data/mock/mock_notices.json');
   const byId = new Map(trees.map((t) => [t.id, t]));
+  // 公示的樹在還沒切過去的區域（例如分享會會場）：用樹號補上，卡片才有名字和地點
+  await Promise.all(notices.filter((n) => !byId.has(n.treeId))
+    .map(async (n) => byId.set(n.treeId, await findOutsideTree(n.treeId))));
   const items = notices
     .map((n) => ({ n, tree: byId.get(n.treeId), guard: getGuard(n.treeId) }))
     .sort((a, b) => Boolean(b.guard) - Boolean(a.guard) || a.n.plannedDate.localeCompare(b.n.plannedDate));

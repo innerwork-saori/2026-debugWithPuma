@@ -1,7 +1,8 @@
 // 切換區域（P1 設計稿「切換區域」，US-12）。負責人：Saori
-// 除了預設的總部周邊，再收錄市民留言最常點名的三個地點（scripts/build_regions.py 產生 data/regions/）。
+// 除了預設的總部周邊，再收錄市民留言最常點名的三個地點（scripts/build_regions.py 產生 data/regions/），
+// 以及 11/24 分享會的會場周邊（羅斯福路三段，這一區有自己的神獸：data/mock/mock_beasts_regions.json）。
 // 區域的樹第一次切過去才下載，地圖一次只畫一區。
-import { esc, loadJson } from './shared.js';
+import { esc, loadJson, STATUS } from './shared.js';
 import { categoryOf } from './categories.js';
 
 // 預設地點：data/trees.json 的範圍（總部周邊）
@@ -21,6 +22,25 @@ export function loadRegions() {
   return regionsPromise;
 }
 
+let beastsPromise;
+/** 區域裡的神獸（模擬資料）：樹號 → 神獸。讀不到就當作沒有神獸，樹照樣畫得出來 */
+export function loadRegionBeasts() {
+  if (!beastsPromise) {
+    const p = loadJson('data/mock/mock_beasts_regions.json')
+      .then(({ beasts }) => new Map(beasts.map((b) => [b.treeId, b])));
+    p.catch(() => { beastsPromise = undefined; });
+    beastsPromise = p.catch(() => new Map());
+  }
+  return beastsPromise;
+}
+
+/** 幫區域裡的樹掛上神獸、狀態、守護人數（lookup.js 用樹號直接打開樹木頁時也用） */
+export function withBeast(tree, beast) {
+  if (!beast) return tree;
+  // outside 拿掉：神獸有守護人數和公告，樹木頁不用顯示「還沒有鄰居守護祂」
+  return { ...tree, beast, status: STATUS[beast.status] ?? 'ok', guardians: beast.guardians, outside: false };
+}
+
 let guardiansPromise;
 const treesById = new Map();
 
@@ -28,10 +48,10 @@ const treesById = new Map();
 export function loadRegionTrees(id) {
   if (!treesById.has(id)) {
     guardiansPromise ??= loadJson('data/mock/mock_guardians_regions.json');
-    const p = Promise.all([loadJson(`data/regions/${id}.json`), guardiansPromise]).then(([{ fields, rows }, { guardians }]) =>
+    const p = Promise.all([loadJson(`data/regions/${id}.json`), guardiansPromise, loadRegionBeasts()]).then(([{ fields, rows }, { guardians }, beasts]) =>
       rows.map((row) => {
         const t = Object.fromEntries(fields.map((f, i) => [f, row[i]]));
-        return {
+        return withBeast({
           ...t,
           managerEstimated: '臺北市公園路燈工程管理處',
           beast: undefined,
@@ -39,7 +59,7 @@ export function loadRegionTrees(id) {
           category: categoryOf(t.species),
           guardians: guardians[t.id] ?? { local: 0, remote: 0 },
           region: id,
-        };
+        }, beasts.get(t.id));
       }));
     // 讀失敗（例如斷線）不要記住，下次再試
     p.catch(() => {
@@ -54,14 +74,15 @@ export function loadRegionTrees(id) {
 /**
  * 切換區域的底部選單。button 按了打開，選了某一區呼叫 onPick(region)；
  * onPick 回傳 Promise，讀取中那一列顯示「讀取中」。Esc、點背景或「先不要」關閉，焦點回到按鈕。
- * 回傳 { choose(id) }，不打開選單直接切換（例如在別的區域按定位鈕）。
+ * 回傳 { choose(id), regions }，choose 不打開選單直接切換（例如按定位鈕、網址帶 ?region=）。
  */
 export async function setupRegionSheet(button, sheet, onPick) {
   const regions = await loadRegions();
   let current = HOME_REGION.id;
 
   const meta = (r) => [r.district, r.note].filter(Boolean).join('・');
-  const count = (r) => (r.comments ? `${r.comments} 則留言` : '現在位置');
+  // 右側的小字：留言熱點寫留言數，活動會場寫 label，預設地點寫「現在位置」
+  const count = (r) => r.label ?? (r.comments ? `${r.comments} 則留言` : '現在位置');
 
   function render() {
     sheet.innerHTML = `
@@ -103,7 +124,10 @@ export async function setupRegionSheet(button, sheet, onPick) {
   }
 
   async function choose(id) {
-    await onPick(regions.find((r) => r.id === id));
+    const r = regions.find((x) => x.id === id);
+    // 網址帶了不認得的區域（?region=）就不動
+    if (!r) return;
+    await onPick(r);
     current = id;
     label();
   }
@@ -128,5 +152,5 @@ export async function setupRegionSheet(button, sheet, onPick) {
     if (e.key === 'Escape') close();
   });
   label();
-  return { choose };
+  return { choose, regions };
 }

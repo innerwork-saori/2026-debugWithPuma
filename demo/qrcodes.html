@@ -53,6 +53,13 @@
 <h2>Demo 用：三隻神獸＋一棵首頁地圖外的樹</h2>
 <div class="grid" id="demo"></div>
 
+<h2>11/24 分享會：會場入口＋會場的四隻神獸</h2>
+<p class="lead">
+  第一張是會場入口，用手機內建相機掃就打開 App，地圖直接開在羅斯福路三段周邊。
+  後面四張是會場附近的神獸（模擬樹牌），在 App 的「掃描」頁掃。
+</p>
+<div class="grid" id="venue"></div>
+
 <h2>測試用</h2>
 <div class="grid" id="test"></div>
 
@@ -67,6 +74,14 @@
     { id: 'JS0155100001', name: '茄苳', note: '加冬仔' },
     { id: 'JS0155503095', name: '雀榕', note: '雀雀（需關注）' },
     { id: 'SL0015101001', name: '欖仁', note: '天母公園的欖仁：不在首頁地圖上，從全臺北的開放資料查到（data/trees-all/）' },
+  ];
+  // 11/24 分享會會場（羅斯福路三段周邊）。神獸是模擬資料：data/mock/mock_beasts_regions.json
+  const VENUE = [
+    { id: '會場入口', name: '大樹神獸', text: `${APP}?region=roosevelt`, note: '用手機內建相機掃：打開 App，地圖開在分享會會場周邊' },
+    { id: 'DA0215000020', name: '榕樹', note: '古莊伯（分享會主角，公示中），古莊公園' },
+    { id: 'JJ0060331065', name: '茄苳', note: '苳苳姨，羅斯福路三段，離會場最近' },
+    { id: 'DA0070110113', name: '雀榕', note: '啾啾（需關注），辛亥路一段' },
+    { id: 'JJ0080310002', name: '臺灣欒樹', note: '欒小秋，汀州路三段' },
   ];
   const TEST = [
     { id: 'JJ0530051019', name: '茄苳', text: GOV('JJ0530051019'), note: '真實樹牌照片上的樹號，開放資料裡查不到：應該打開「樹種待查」的樹木頁' },
@@ -97,6 +112,7 @@
   }
 
   render(document.getElementById('demo'), DEMO);
+  render(document.getElementById('venue'), VENUE);
   render(document.getElementById('test'), TEST);
 </script>
 </body>

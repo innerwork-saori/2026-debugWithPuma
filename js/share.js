@@ -1,6 +1,7 @@
 // 分享卡（關鍵畫面第 13～16 頁「守護籤」「求援籤」，PRD F9）：#/share/樹號。負責人：Saori
 // #/share/樹號/guard、#/share/樹號/help 指定要哪一張；沒指定時，公示中的樹先給求援籤。
 // 卡片是固定圖檔（scripts/capture_share_cards.cjs 從設計稿截的），只有鬚鬚公有；其他樹用神獸卡代替、只分享連結。
+// 圖上印著鬚鬚公的名字，所以用樹號對應，不用 slug：其他區域沿用同一張插圖的神獸（例如會場的古莊伯）不會拿到這張卡。
 // 分享出去的網址是 t/樹號（檔案是 t/樹號.html，scripts/make_og_pages.cjs 產生），LINE、Threads 才讀得到預覽圖。
 // 網址不帶 .html：Cloudflare 會把 .html 轉址到沒有副檔名的網址，有些平台抓預覽時不跟轉址。
 import { esc, DESKTOP, loadJson, pageBarHtml } from './shared.js';
@@ -9,7 +10,7 @@ import { heroHtml } from './tree.js';
 
 const SITE = 'https://2026-debugwithpuma.tree-god.workers.dev/';
 const CARDS = {
-  xuxugong: { guard: 'assets/share/xuxugong-guard.png', help: 'assets/share/xuxugong-help.png' },
+  JS0155103034: { guard: 'assets/share/xuxugong-guard.png', help: 'assets/share/xuxugong-help.png' },
 };
 const KIND_LABEL = { guard: '守護籤', help: '求援籤' };
 
@@ -88,7 +89,7 @@ export async function renderSharePage(el, { tree }) {
   const kinds = notice ? ['help', 'guard'] : ['guard'];
   const asked = location.hash.split('/')[3];
   let kind = kinds.includes(asked) ? asked : kinds[0];
-  const cards = CARDS[tree.beast?.slug];
+  const cards = CARDS[tree.id];
   Object.values(cards ?? {}).forEach(prepareFile);
 
   function draw() {

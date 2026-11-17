@@ -40,6 +40,10 @@ const WITH_NAV = ['collection', 'notices', 'me', 'myevents', 'goals', 'feedback'
 
 // Demo 用的「你的位置」是 shared.js 的 HOME，真實定位離太遠時退回這裡。
 const NEAR_LIMIT_M = 2000;
+// 其他區域：真實定位在收錄範圍外多少公尺內，還算人在這一區（室內定位常常偏掉）
+const REGION_MARGIN_M = 300;
+// 沒寫半徑的區域（例如只收一條路的行道樹）用這個半徑判斷人在不在
+const REGION_RADIUS_M = 600;
 // 定位提示泡泡顯示多久
 const LOCATE_HINT_MS = 6000;
 // 比這個近才畫完整的屋簷標記；拉遠時一般樹縮成小圓點，神獸和選取中的樹照常顯示
@@ -355,7 +359,10 @@ async function main() {
   const byId = new Map(trees.map((t) => [t.id, t]));
   // 附近的樹算距離的起點：在預設地點是你的位置，在別的區域是那一區的中心（卡片不顯示距離）
   let regionCenter = null;
-  const origin = () => regionCenter ?? here;
+  // 在別的區域的「你的位置」：真實定位落在這一區，或這一區把中心當成 Demo 的位置（分享會會場）。有的話卡片照樣顯示距離
+  let regionHere = null;
+  const origin = () => regionHere ?? regionCenter ?? here;
+  const cardFrom = () => (regionCenter ? regionHere : here);
 
   // 框選範圍時避開蓋在地圖上的東西：手機是上方搜尋列和底部卡片；電腦版左右欄不蓋地圖
   const mapPadding = (topLeft, bottomExtra) => (DESKTOP.matches
@@ -391,7 +398,7 @@ async function main() {
     const m = markers.get(tree.id);
     m.setIcon(iconFor(tree, true));
     m.setZIndexOffset(Z_SELECTED);
-    renderCard(card, tree, regionCenter ? null : here);
+    renderCard(card, tree, cardFrom());
     syncNearby();
   }
 
@@ -460,27 +467,37 @@ async function main() {
   const NO_POSITION = '沒拿到你的位置，先帶你看總部附近的樹。';
 
   // 定位只用來畫出你的位置、算距離，不保存
-  document.getElementById('locate').addEventListener('click', async () => {
-    // 在別的區域按定位：先切回預設地點
-    if (region !== HOME_REGION.id) await (await regionSheet)?.choose(HOME_REGION.id);
-    const back = () => map.setView(here, Math.max(map.getZoom(), 17));
-    const fail = () => {
-      hint(NO_POSITION);
-      back();
+  // 人在哪一區就切到哪一區；都不在（或沒拿到位置）就回預設地點
+  document.getElementById('locate').addEventListener('click', () => {
+    const goTo = async (id) => {
+      if (region !== id) await (await regionSheet)?.choose(id);
+      return region === id;
     };
+    const center = () => map.setView(origin(), Math.max(map.getZoom(), 17));
+    const goHome = async (text) => {
+      if (text) hint(text);
+      await goTo(HOME_REGION.id);
+      center();
+    };
+    const fail = () => goHome(NO_POSITION);
     if (!navigator.geolocation) return fail();
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
+      async (pos) => {
         const p = [pos.coords.latitude, pos.coords.longitude];
-        if (L.latLng(p).distanceTo(HOME) < NEAR_LIMIT_M) {
+        const at = (await regionSheet)?.regions.find((r) => r.center
+          && L.latLng(p).distanceTo([r.center.lat, r.center.lng]) < (r.radiusM ?? REGION_RADIUS_M) + REGION_MARGIN_M);
+        if (at && await goTo(at.id)) {
+          regionHere = p;
+        } else if (L.latLng(p).distanceTo(HOME) < NEAR_LIMIT_M) {
+          await goTo(HOME_REGION.id);
           here = p;
-          meMarker.setLatLng(here);
-          if (selected && !regionCenter) renderCard(card, selected, here);
-          syncNearby();
         } else {
-          hint('你不在目前收錄的範圍內，先帶你看總部附近的樹。');
+          return goHome('你不在目前收錄的範圍內，先帶你看總部附近的樹。');
         }
-        back();
+        meMarker.setLatLng(p);
+        if (selected) renderCard(card, selected, cardFrom());
+        syncNearby();
+        center();
       },
       fail,
       { enableHighAccuracy: true, timeout: 5000 },
@@ -495,7 +512,11 @@ async function main() {
     select(hero);
     map.fitBounds(L.latLngBounds([HOME, ...beastSpots]), { ...mapPadding([40, 160], 60), maxZoom: 18 });
   }
-  showHome();
+  // 網址帶 ?region=區域代號（例如分享會會場的 ?region=roosevelt）：一打開就切到那一區（在下面 regionSheet 準備好之後）。
+  // 這時先不框預設地點，不然地圖還在縮放的動畫裡又被移到別區，手機上標記會畫不出來
+  const startRegion = new URLSearchParams(location.search).get('region');
+  if (startRegion) select(hero);
+  else showHome();
 
   // 切換區域：第一次切過去才下載那一區的樹，篩選和搜尋都清掉重來
   async function switchRegion(r) {
@@ -508,6 +529,8 @@ async function main() {
     }
     region = r.id;
     regionCenter = r.center ? [r.center.lat, r.center.lng] : null;
+    regionHere = r.here ? regionCenter : null;
+    meMarker.setLatLng(regionHere ?? here);
     filter = 'all';
     document.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.filter === 'all')));
     query = '';
@@ -517,6 +540,13 @@ async function main() {
     catMenu.setItems(categoryItems(inRegion));
     applyFilter();
     if (region === HOME_REGION.id) return showHome();
+    // 有神獸的區域（分享會會場）：跟預設地點一樣，選公示中的主角，地圖框住神獸和你的位置
+    const beastsHere = inRegion.filter((t) => t.beast);
+    if (beastsHere.length) {
+      select(beastsHere.find((t) => t.status === 'notice') ?? beastsHere[0]);
+      map.fitBounds(L.latLngBounds([regionCenter, ...beastsHere.map((t) => [t.lat, t.lng])]), { ...mapPadding([40, 230], 60), maxZoom: 18, animate: false });
+      return;
+    }
     // 選這一區最粗的樹，地圖框住整區
     select(inRegion.reduce((a, b) => ((b.dbh ?? 0) > (a.dbh ?? 0) ? b : a)));
     map.fitBounds(L.latLngBounds(inRegion.map((t) => [t.lat, t.lng])), { ...mapPadding([24, 140], 24), maxZoom: 18 });
@@ -528,6 +558,7 @@ async function main() {
       console.error(err);
       regionBtn.hidden = true;
     });
+  if (startRegion) regionSheet.then((s) => s?.choose(startRegion)).catch(console.error);
 
   // 路由：依 PAGES 把畫面畫進同一個全螢幕的 #page，蓋在地圖上面
   const page = document.getElementById('page');

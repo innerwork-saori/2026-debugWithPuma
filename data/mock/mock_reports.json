@@ -66,6 +66,62 @@
       "nickname": "賞鳥的小學生家長（模擬）",
       "checks": { "rootBulge": true, "trunkNetPattern": false, "sparseLeaves": true, "constructionNotice": false, "pitFilled": false },
       "note": "根附近的地面好像拱起來了，葉子也比上個月稀，不確定是不是換葉。"
+    },
+    {
+      "id": "R-MOCK-008",
+      "treeId": "DA0215000020",
+      "date": "2026-10-18",
+      "nickname": "公園慢跑的人（模擬）",
+      "checks": { "rootBulge": false, "trunkNetPattern": false, "sparseLeaves": false, "constructionNotice": false, "pitFilled": false },
+      "note": "早上樹下很多人在做操，氣根又長了一些。"
+    },
+    {
+      "id": "R-MOCK-009",
+      "treeId": "DA0215000020",
+      "date": "2026-11-08",
+      "nickname": "帶便當來吃的學生（模擬）",
+      "checks": { "rootBulge": false, "trunkNetPattern": false, "sparseLeaves": false, "constructionNotice": false, "pitFilled": false },
+      "note": "樹蔭還是很大，中午坐在下面很涼。"
+    },
+    {
+      "id": "R-MOCK-010",
+      "treeId": "DA0215000020",
+      "date": "2026-11-17",
+      "nickname": "公園慢跑的人（模擬）",
+      "checks": { "rootBulge": false, "trunkNetPattern": false, "sparseLeaves": false, "constructionNotice": true, "pitFilled": false },
+      "note": "樹旁邊貼了施工公告，寫說要移除，大家快來看。"
+    },
+    {
+      "id": "R-MOCK-011",
+      "treeId": "JJ0060331065",
+      "date": "2026-11-10",
+      "nickname": "等公車的上班族（模擬）",
+      "checks": { "rootBulge": false, "trunkNetPattern": false, "sparseLeaves": false, "constructionNotice": false, "pitFilled": false },
+      "note": "葉子很綠，樹穴也乾淨。"
+    },
+    {
+      "id": "R-MOCK-012",
+      "treeId": "DA0070110113",
+      "date": "2026-11-05",
+      "nickname": "巷口買早餐的人（模擬）",
+      "checks": { "rootBulge": false, "trunkNetPattern": false, "sparseLeaves": true, "constructionNotice": false, "pitFilled": false },
+      "note": "葉子比上個月少很多，不確定是不是在換葉。"
+    },
+    {
+      "id": "R-MOCK-013",
+      "treeId": "DA0070110113",
+      "date": "2026-11-15",
+      "nickname": "遛狗的鄰居（模擬）",
+      "checks": { "rootBulge": true, "trunkNetPattern": false, "sparseLeaves": true, "constructionNotice": false, "pitFilled": false },
+      "note": "根的地方好像有點拱起來，葉子還是稀稀的。"
+    },
+    {
+      "id": "R-MOCK-014",
+      "treeId": "JJ0080310002",
+      "date": "2026-11-12",
+      "nickname": "逛書店的人（模擬）",
+      "checks": { "rootBulge": false, "trunkNetPattern": false, "sparseLeaves": false, "constructionNotice": false, "pitFilled": false },
+      "note": "蒴果變成紅褐色了，整排都很漂亮。"
     }
   ]
 }

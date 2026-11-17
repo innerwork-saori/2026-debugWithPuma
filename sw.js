@@ -7,7 +7,7 @@
 //
 // 改了下面的 PRECACHE 清單就把 VERSION 加一號，舊快取會在新版啟用時清掉。
 
-const VERSION = 'dsh-v14';
+const VERSION = 'dsh-v15';
 const NETWORK_TIMEOUT_MS = 4000;
 const CDN_HOSTS = ['cdnjs.cloudflare.com', 'unpkg.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 
@@ -60,6 +60,10 @@ const PRECACHE = [
   'data/mock/mock_events.json',
   'data/mock/mock_community.json',
   'data/regions/index.json',
+  // 11/24 分享會會場：現場網路不穩也開得起來
+  'data/regions/roosevelt.json',
+  'data/mock/mock_beasts_regions.json',
+  'data/mock/mock_guardians_regions.json',
 ];
 
 self.addEventListener('install', (event) => {
