@@ -90,7 +90,7 @@ export async function setupRegionSheet(button, sheet, onPick, homeCount) {
       <div class="rg-sheet__panel" role="dialog" aria-modal="true" aria-labelledby="rg-title">
         <span class="rg-grab" aria-hidden="true"></span>
         <h2 class="rg-title" id="rg-title">看看大家關心的地方</h2>
-        <p class="rg-sub">「市長，你給我聽好了」種樹相關留言裡，最常被提到的地點</p>
+        <p class="rg-sub">換個地方，看看那裡的樹。有寫留言數的，是「市長，你給我聽好了」種樹相關留言裡常被提到的地點</p>
         <ul class="rg-list">
           ${regions.map((r) => `
             <li><button type="button" class="rg-area" data-id="${esc(r.id)}"${r.id === current ? ' aria-current="true"' : ''}>
